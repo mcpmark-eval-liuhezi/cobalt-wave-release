@@ -1,0 +1,24 @@
+name: Release Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify release brief is present
+        run: |
+          if [ ! -f release_brief.md ]; then
+            echo "release_brief.md is missing from the repository root."
+            exit 1
+          fi
+          echo "release_brief.md found."
+
+      - name: Print official key results
+        run: |
+          echo "Release: Cobalt Wave, version 2.4"
+          grep -A 4 "Official key results" release_brief.md
